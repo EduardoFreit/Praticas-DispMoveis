@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendMessage(view: View) {
-        val intent : Intent = Intent(this, DisplayMessageActivity::class)
+        val intent : Intent = Intent(this, DisplayMessageActivity::class.java)
         val editText : EditText = findViewById<EditText>(R.id.edit_message)
         val message : String = editText.text.toString();
 
