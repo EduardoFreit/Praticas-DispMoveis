@@ -1,5 +1,6 @@
 package ifpe.pdm.praticas
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,9 +49,15 @@ class OverviewFragment : Fragment() {
         return view
     }
 
+
     private fun updateDetail() {
         val newTime : String = System.currentTimeMillis().toString()
         listener?.onInteraction(newTime)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as? FragmentListener ?: throw ClassCastException("$context must implement OverviewFragment.FragmentListener")
     }
 
     companion object {
