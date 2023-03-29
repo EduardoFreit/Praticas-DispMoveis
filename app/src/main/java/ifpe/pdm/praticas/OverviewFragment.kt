@@ -44,7 +44,7 @@ class OverviewFragment : Fragment() {
         // Inflate the layout for this fragment
         val view : View = inflater.inflate(R.layout.fragment_overview, container, false)
         val button : Button = view.findViewById(R.id.button1)
-        button.setOnClickListener{ v -> updateDetail()}
+        button.setOnClickListener{ updateDetail() }
 
         return view
     }
@@ -77,6 +77,11 @@ class OverviewFragment : Fragment() {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
+            }
+        @JvmStatic
+        fun newInstance() =
+            OverviewFragment().apply {
+                arguments = Bundle()
             }
     }
 }

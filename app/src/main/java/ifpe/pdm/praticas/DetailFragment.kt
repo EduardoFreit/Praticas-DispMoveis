@@ -59,7 +59,6 @@ class DetailFragment : Fragment() {
         view?.text = item
     }
 
-
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -77,6 +76,11 @@ class DetailFragment : Fragment() {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
+            }
+        @JvmStatic
+        fun newInstance() =
+            DetailFragment().apply {
+                arguments = Bundle()
             }
     }
 }
