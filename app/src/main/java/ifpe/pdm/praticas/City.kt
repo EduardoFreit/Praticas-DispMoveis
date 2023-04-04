@@ -1,0 +1,1 @@
+class City(val name: String, val info: String)
