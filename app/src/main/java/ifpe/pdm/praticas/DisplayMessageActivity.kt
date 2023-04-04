@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 
 class DisplayMessageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +17,8 @@ class DisplayMessageActivity : AppCompatActivity() {
 
         textView.textSize = 40F
         textView.text = message
+
+        val ab : ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
     }
 }
