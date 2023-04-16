@@ -2,13 +2,9 @@ package ifpe.pdm.praticas
 
 import City
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,21 +41,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val listView : ListView = findViewById(R.id.list_view)
-        listView.adapter = CityAdapter(
-            this,
-            R.layout.city_listitem,
-            CITIES
-        )
-
-        listView.onItemClickListener =
-            OnItemClickListener { parent: AdapterView<*>, view: View?, position: Int, id: Long ->
-                Toast.makeText(
-                    parent.context,
-                    "Cidade selecionada: " + CITIES[position].name,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        val recyclerView: RecyclerView = findViewById(R.id.list_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = CityRecyclerAdapter(CITIES)
 
     }
 }
