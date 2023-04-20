@@ -4,10 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -61,7 +65,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         val granted: Boolean = grantResults.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED)
         this.fine_location = (requestCode == FINE_LOCATION_REQUEST) && granted
+
         mMap.isMyLocationEnabled = this.fine_location
+
+        findViewById<Button>(R.id.button_location).isEnabled = this.fine_location
     }
 
 
@@ -134,5 +141,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Habilitando botão da minha localização se a permissão estiver sido garantida
         mMap.isMyLocationEnabled = this.fine_location
+
+        findViewById<Button>(R.id.button_location).isEnabled = this.fine_location
     }
+
+    fun currentLocation(view: View?) {
+        val fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        val task = fusedLocationProviderClient.lastLocation
+        task.addOnSuccessListener { location: Location? ->
+            if (location != null) {
+                Toast.makeText(
+                    this@MapsActivity,
+                    "Localização atual: Lat: ${location.latitude} Long: ${location.longitude}", Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
 }
