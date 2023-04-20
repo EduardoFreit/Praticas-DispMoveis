@@ -27,6 +27,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
+
         <activity
             android:name=".MapsActivity"
             android:exported="true"
@@ -43,5 +44,8 @@
             android:exported="false">
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

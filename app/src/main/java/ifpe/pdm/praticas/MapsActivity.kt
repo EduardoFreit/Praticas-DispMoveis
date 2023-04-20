@@ -1,8 +1,12 @@
 package ifpe.pdm.praticas
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,11 +21,18 @@ import java.util.Date
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private var fine_location: Boolean = false
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
+    companion object {
+        val FINE_LOCATION_REQUEST : Int = 0
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestPermission();
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,6 +42,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
+
+    private fun requestPermission() {
+        val permissionCheck: Int = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        this.fine_location = permissionCheck == PackageManager.PERMISSION_GRANTED
+        if (this.fine_location) return
+        ActivityCompat.requestPermissions(
+            this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            FINE_LOCATION_REQUEST
+        )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val granted: Boolean = grantResults.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        this.fine_location = (requestCode == FINE_LOCATION_REQUEST) && granted
+    }
+
 
     /**
      * Manipulates the map once available.
