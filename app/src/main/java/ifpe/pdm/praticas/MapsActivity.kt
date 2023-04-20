@@ -2,6 +2,7 @@ package ifpe.pdm.praticas
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         val granted: Boolean = grantResults.isNotEmpty() && (grantResults[0] == PackageManager.PERMISSION_GRANTED)
         this.fine_location = (requestCode == FINE_LOCATION_REQUEST) && granted
+        mMap.isMyLocationEnabled = this.fine_location
     }
 
 
@@ -114,5 +116,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(recife))
+
+        mMap.setOnMyLocationButtonClickListener {
+            Toast.makeText(
+                this@MapsActivity,
+                "Indo para a sua localização.", Toast.LENGTH_SHORT
+            ).show()
+            false
+        }
+
+        mMap.setOnMyLocationClickListener { location: Location? ->
+            Toast.makeText(
+                this@MapsActivity,
+                "Você está aqui!", Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        //Habilitando botão da minha localização se a permissão estiver sido garantida
+        mMap.isMyLocationEnabled = this.fine_location
     }
 }
