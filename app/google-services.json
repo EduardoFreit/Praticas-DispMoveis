@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "885200636810",
+    "project_id": "praticas-b23cc",
+    "storage_bucket": "praticas-b23cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885200636810:android:5314121fc67a2680e2d673",
+        "android_client_info": {
+          "package_name": "ifpe.pdm.praticas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885200636810-e7b9u8il1dregku8ngtpm9nns4s9kulc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5Zp7AG826ScKXXp12UvHf0v35fN2k814"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885200636810-e7b9u8il1dregku8ngtpm9nns4s9kulc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
