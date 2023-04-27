@@ -19,8 +19,7 @@
     <Button
         android:id="@+id/button_sair"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_sair"
-        android:gravity="center_vertical"
-        ></Button>
+        android:layout_height="43dp"
+        android:gravity="center"
+        android:text="@string/button_sair"></Button>
 </LinearLayout>

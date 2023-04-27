@@ -14,6 +14,8 @@ import ifpe.pdm.praticas.databinding.ActivitySignInBinding
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
+    private lateinit var fbAuth: FirebaseAuth
+    private lateinit var authListener: FirebaseAuthListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
@@ -23,8 +25,18 @@ class SignInActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener { this.buttonSignInClick(binding.root) }
 
         setContentView(binding.root)
-    }
 
+        this.fbAuth = FirebaseAuth.getInstance()
+        this.authListener = FirebaseAuthListener(this)
+    }
+    override fun onStart() {
+        super.onStart()
+        fbAuth.addAuthStateListener(authListener)
+    }
+    override fun onStop() {
+        super.onStop()
+        fbAuth.removeAuthStateListener(authListener)
+    }
     private fun irParaCadastrar() {
         val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
@@ -36,8 +48,8 @@ class SignInActivity : AppCompatActivity() {
         val mAuth = FirebaseAuth.getInstance()
         mAuth.signInWithEmailAndPassword(login, passwd)
             .addOnCompleteListener(this) { task: Task<AuthResult?> ->
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+//                val intent = Intent(this, HomeActivity::class.java)
+//                startActivity(intent)
             }
     }
 
