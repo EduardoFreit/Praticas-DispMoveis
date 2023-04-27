@@ -5,4 +5,6 @@
     <string name="input_password">Senha</string>
     <string name="button_cadastro">Cadastrar</string>
     <string name="button_login">Login</string>
+    <string name="bem_vindo">Bem vindo!</string>
+    <string name="button_sair">Sair\n</string>
 </resources>

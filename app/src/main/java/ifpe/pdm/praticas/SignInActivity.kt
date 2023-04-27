@@ -26,7 +26,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun irParaCadastrar() {
-        val intent: Intent = Intent(this, SignUpActivity::class.java)
+        val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
     }
 
@@ -36,11 +36,8 @@ class SignInActivity : AppCompatActivity() {
         val mAuth = FirebaseAuth.getInstance()
         mAuth.signInWithEmailAndPassword(login, passwd)
             .addOnCompleteListener(this) { task: Task<AuthResult?> ->
-                val msg = if (task.isSuccessful) "SIGN IN OK!" else "SIGN IN ERROR!"
-                Toast.makeText(
-                    this@SignInActivity, msg,
-                    Toast.LENGTH_SHORT
-                ).show()
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
             }
     }
 
