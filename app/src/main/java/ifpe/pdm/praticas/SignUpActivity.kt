@@ -23,7 +23,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun buttonSignUpClick(view: View) {
-        val email: String = binding.editEmail.text.toString(),
+        val email: String = binding.editEmail.text.toString()
         val password: String = binding.editPassword.text.toString()
         val mAuth = FirebaseAuth.getInstance()
         mAuth.createUserWithEmailAndPassword(email, password)
