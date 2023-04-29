@@ -1,3 +1,6 @@
 package ifpe.pdm.praticas.model
 
-class User(val name: String?, val email: String?)
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
+class User(val name: String? = null, val email: String? = null)

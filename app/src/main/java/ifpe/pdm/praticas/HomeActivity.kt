@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import ifpe.pdm.praticas.databinding.ActivityHomeBinding
@@ -35,27 +36,26 @@ class HomeActivity : AppCompatActivity() {
         this.fbAuth = FirebaseAuth.getInstance()
         this.authListener = FirebaseAuthListener(this)
 
-        val fbDB = FirebaseDatabase.getInstance()
-        val fbUser = fbAuth.currentUser
-        val drUser = fbDB.getReference("users/" + fbUser!!.uid)
-        val drChat = fbDB.getReference("chat")
+        val fbDB: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val fbUser: FirebaseUser? = fbAuth.currentUser
+        val drUser: DatabaseReference = fbDB.getReference("users/" + fbUser!!.uid)
+        val drChat: DatabaseReference = fbDB.getReference("chat")
+
         drUser.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val tempUser = dataSnapshot.value as HashMap<String, String>
-                if (tempUser != null) {
-                    this@HomeActivity.user = User(tempUser["name"], tempUser["email"])
-                    binding.textWelcome.text = "Welcome " + user.name + "!"
+                dataSnapshot.getValue(User::class.java)?.let {
+                    this@HomeActivity.user = it
+                    binding.textWelcome.text = "Welcome " + it.name + "!"
                 }
             }
-
             override fun onCancelled(databaseError: DatabaseError) {}
         })
         drChat.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                val message = dataSnapshot.value as HashMap<String, String>
-                showMessage(Message(message["name"], message["text"]))
+                dataSnapshot.getValue(Message::class.java)?.let {
+                    showMessage(it)
+                }
             }
-
             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
             override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
@@ -63,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
         })
 
         binding.sendMessage.setOnClickListener {
-            val message: String? = binding.editMessage.text.toString()
+            val message: String = binding.editMessage.text.toString()
             val newMessage = Message(user.name, message)
             binding.editMessage.text.clear()
             drChat.push().setValue(newMessage)
