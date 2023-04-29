@@ -6,5 +6,7 @@
     <string name="button_cadastro">Cadastrar</string>
     <string name="button_login">Login</string>
     <string name="bem_vindo">Bem vindo!</string>
-    <string name="button_sair">Sair\n</string>
+    <string name="button_sair">SIGN OUT</string>
+    <string name="send_message">Send Message</string>
+    <string name="edit_message">Message</string>
 </resources>
