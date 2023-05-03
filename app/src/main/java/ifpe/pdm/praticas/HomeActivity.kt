@@ -77,7 +77,6 @@ class HomeActivity : AppCompatActivity() {
     fun myEnter() {
         binding.editMessage.setOnKeyListener (View.OnKeyListener{ view, keyCode, keyEvent ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
-                Toast.makeText(this@HomeActivity, "Erro!", Toast.LENGTH_SHORT).show()
                 binding.sendMessage.performClick()
                 return@OnKeyListener true
             }
