@@ -2,6 +2,8 @@ package ifpe.pdm.praticas
 
 import android.R.id
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -68,6 +70,19 @@ class HomeActivity : AppCompatActivity() {
             binding.editMessage.text.clear()
             drChat.push().setValue(newMessage)
         }
+        binding.editMessage.setOnClickListener { this.myEnter() }
+
+    }
+
+    fun myEnter() {
+        binding.editMessage.setOnKeyListener (View.OnKeyListener{ view, keyCode, keyEvent ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP) {
+                Toast.makeText(this@HomeActivity, "Erro!", Toast.LENGTH_SHORT).show()
+                binding.sendMessage.performClick()
+                return@OnKeyListener true
+            }
+            false
+        })
     }
     override fun onStart() {
         super.onStart()
