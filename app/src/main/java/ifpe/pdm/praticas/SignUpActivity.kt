@@ -9,6 +9,8 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import ifpe.pdm.praticas.databinding.ActivitySignUpBinding
 import ifpe.pdm.praticas.model.User
 
@@ -18,6 +20,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var fbAuth: FirebaseAuth
     private lateinit var authListener: FirebaseAuthListener
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,7 @@ class SignUpActivity : AppCompatActivity() {
         val name: String = binding.editName.text.toString()
         val email: String = binding.editEmail.text.toString()
         val password: String = binding.editPassword.text.toString()
-        val mAuth = FirebaseAuth.getInstance()
+        val mAuth:FirebaseAuth = FirebaseAuth.getInstance()
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task: Task<AuthResult?> ->
                 val msg = if (task.isSuccessful) "SIGN UP OK!" else "SIGN UP ERROR!"
@@ -52,8 +55,8 @@ class SignUpActivity : AppCompatActivity() {
 
                 if(task.isSuccessful) {
                     var tempUser = User(name, email)
-                    val drUsers: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
-                    mAuth.currentUser?.let { drUsers.child(it.uid).setValue(tempUser) }
+                    val drUsers: CollectionReference = db.collection("users")
+                    mAuth.currentUser?.let { drUsers.document(it.uid).set(tempUser) }
                 }
             }
     }
