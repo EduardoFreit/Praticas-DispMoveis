@@ -3,11 +3,9 @@ package ifpe.pdm.praticas
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ifpe.pdm.praticas.databinding.ActivityMainBinding
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,13 +22,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonOkClick(view: View?) {
-        val cityName = (findViewById<View>(viewBinding.editCity.id) as EditText).text.toString()
+        val cityName = viewBinding.editCity.text.toString()
         ForecastTask(this).execute(cityName)
     }
 
     fun showForecast(forecast: List<String>?) {
         if (forecast == null) {
-            val cityName = (findViewById<View>(viewBinding.editCity.id) as EditText).text.toString()
+            val cityName = viewBinding.editCity.text.toString()
             val toast = Toast.makeText(
                 this, "Previsão não encontrada para " +
                         cityName, Toast.LENGTH_SHORT

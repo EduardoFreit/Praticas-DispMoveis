@@ -4,7 +4,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.GregorianCalendar
-
+import kotlin.math.roundToLong
 
 object ForecastParser {
     private fun getReadableDateString(time: Long): String {
@@ -13,8 +13,8 @@ object ForecastParser {
     }
 
     private fun formatHighLows(high: Double, low: Double): String {
-        val roundedHigh = Math.round(high)
-        val roundedLow = Math.round(low)
+        val roundedHigh = high.roundToLong()
+        val roundedLow = low.roundToLong()
         return "$roundedLow/$roundedHigh"
     }
 
@@ -39,7 +39,7 @@ object ForecastParser {
             val high = temperatureObject.getDouble(OWM_MAX)
             val low = temperatureObject.getDouble(OWM_MIN)
             val highAndLow = formatHighLows(high, low)
-            val date = getReadableDateString(cal.getTimeInMillis())
+            val date = getReadableDateString(cal.timeInMillis)
             resultStrs.add("$date - $description - $highAndLow")
             cal.add(GregorianCalendar.DATE, 1)
         }

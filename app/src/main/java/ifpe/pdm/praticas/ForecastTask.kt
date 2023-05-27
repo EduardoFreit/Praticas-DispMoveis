@@ -17,10 +17,6 @@ class ForecastTask(private val listener: MainActivity) : AsyncTask<String, Void,
     private var forecast: List<String>? = null
     private val APPID = "a11ac945f2360e8cf7d496e7cb53dc00"
 
-    interface ForecastListener {
-        fun showForecast(forecast: List<String>)
-    }
-
     override fun doInBackground(vararg params: String): List<String>? {
         var urlConnection: HttpURLConnection? = null
         var reader: BufferedReader? = null
