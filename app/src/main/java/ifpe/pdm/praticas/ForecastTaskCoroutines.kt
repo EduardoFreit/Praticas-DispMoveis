@@ -14,7 +14,7 @@ import java.net.URL
 
 class ForecastTaskCoroutines(private val listener: MainActivity) {
     private val LOG_TAG = ForecastTask::class.java.simpleName
-    private val APPID = "a11ac945f2360e8cf7d496e7cb53dc00"
+    private val APPID = ""
 
     suspend fun doInBackground(vararg params: String): List<String>? {
         var urlConnection: HttpURLConnection? = null
