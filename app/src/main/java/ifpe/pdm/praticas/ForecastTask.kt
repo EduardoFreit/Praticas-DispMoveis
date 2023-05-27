@@ -43,10 +43,10 @@ class ForecastTask(private val listener: MainActivity) : AsyncTask<String, Void,
             while (reader.readLine().also { line = it } != null) {
                 buffer.append(line).append("\n")
             }
-            if (buffer.length == 0) {
-                forecastJson = null
+            forecastJson = if (buffer.isEmpty()) {
+                null
             } else {
-                forecastJson = buffer.toString()
+                buffer.toString()
             }
             forecast = ForecastParser.getDataFromJson(forecastJson, 7)
         } catch (e: IOException) {

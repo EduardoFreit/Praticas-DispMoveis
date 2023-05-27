@@ -16,7 +16,7 @@ class ForecastTaskCoroutines(private val listener: MainActivity) {
     private val LOG_TAG = ForecastTask::class.java.simpleName
     private val APPID = ""
 
-    suspend fun doInBackground(vararg params: String): List<String>? {
+    private fun doInBackground(vararg params: String): List<String>? {
         var urlConnection: HttpURLConnection? = null
         var reader: BufferedReader? = null
         val locationString = params[0]
@@ -43,10 +43,10 @@ class ForecastTaskCoroutines(private val listener: MainActivity) {
             while (reader.readLine().also { line = it } != null) {
                 buffer.append(line).append("\n")
             }
-            if (buffer.length == 0) {
-                forecastJson = null
+            forecastJson = if (buffer.isEmpty()) {
+                null
             } else {
-                forecastJson = buffer.toString()
+                buffer.toString()
             }
             forecast = ForecastParser.getDataFromJson(forecastJson, 7)
         } catch (e: IOException) {
