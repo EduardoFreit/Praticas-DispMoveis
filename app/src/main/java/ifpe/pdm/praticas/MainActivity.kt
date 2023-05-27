@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ifpe.pdm.praticas.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +25,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun buttonOkClick(view: View?) {
         val cityName = viewBinding.editCity.text.toString()
-        ForecastTask(this).execute(cityName)
+        val forecastTask = ForecastTaskCoroutines(this)
+
+        GlobalScope.launch {
+            forecastTask.execute(cityName)
+        }
     }
 
     fun showForecast(forecast: List<String>?) {
