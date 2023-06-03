@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface WeatherForecastAPI {
 
     companion object {
-        const val APPID = "a11ac945f2360e8cf7d496e7cb53dc00"
+        const val APPID = ""
     }
 
     @GET("forecast/daily?APPID=$APPID&mode=json&units=metric&cnt=7")
