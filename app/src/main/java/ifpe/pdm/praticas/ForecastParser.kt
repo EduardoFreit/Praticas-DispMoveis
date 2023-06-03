@@ -7,12 +7,18 @@ import java.util.GregorianCalendar
 import kotlin.math.roundToLong
 
 object ForecastParser {
-    private fun getReadableDateString(time: Long): String {
+    fun getReadableDateString(time: Long): String {
         val shortenedDateFormat = SimpleDateFormat("EEE MMM dd")
         return shortenedDateFormat.format(time)
     }
 
     private fun formatHighLows(high: Double, low: Double): String {
+        val roundedHigh = high.roundToLong()
+        val roundedLow = low.roundToLong()
+        return "$roundedLow/$roundedHigh"
+    }
+
+    fun formatHighLows(high: Float, low: Float): String {
         val roundedHigh = high.roundToLong()
         val roundedLow = low.roundToLong()
         return "$roundedLow/$roundedHigh"
