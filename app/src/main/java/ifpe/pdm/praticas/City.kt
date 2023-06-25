@@ -1,1 +1,1 @@
-class City(val name: String, var weather: String? = null)
+class City(val name: String, var weather: String? = null, var urlImagem: String? = null)
