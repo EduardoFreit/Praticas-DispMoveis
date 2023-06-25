@@ -52,4 +52,10 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = CityRecyclerAdapter(CITIES, this.queue)
 
     }
+
+    override fun onStop() {
+        super.onStop()
+        queue.cancelAll(this)
+    }
+
 }

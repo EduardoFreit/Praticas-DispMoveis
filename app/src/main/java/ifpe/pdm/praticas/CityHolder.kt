@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CityHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
     private val cityName: TextView
-    private val cityInfo: TextView
+    val cityInfo: TextView
     private var city: City? = null
 
     init {
