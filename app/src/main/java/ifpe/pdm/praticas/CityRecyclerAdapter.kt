@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.RequestQueue
 
 
-class CityRecyclerAdapter(private val cities: Array<City>) : RecyclerView.Adapter<CityHolder>() {
+class CityRecyclerAdapter(private val cities: Array<City>, queue: RequestQueue) : RecyclerView.Adapter<CityHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityHolder {
         val inflatedView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.city_listitem, parent, false)

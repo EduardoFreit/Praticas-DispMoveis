@@ -28,6 +28,6 @@ class CityHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnCli
     fun bindCity(city: City) {
         this.city = city
         cityName.text = city.name
-        cityInfo.text = city.info
+        cityInfo.text = city.weather
     }
 }
