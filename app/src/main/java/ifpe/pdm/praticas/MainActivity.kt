@@ -1,10 +1,13 @@
 package ifpe.pdm.praticas
 
 import SchoolDbHelper
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -60,8 +63,39 @@ class MainActivity : AppCompatActivity() {
         }*/
     }
 
+    @SuppressLint("Range")
     private fun buttonQueryClick() {
         val name = viewBinding.editName.text.toString()
+        val dbHelper = SchoolDbHelper(this)
+        val db = dbHelper.readableDatabase
+        val projection = arrayOf(BaseColumns._ID, SchoolContract.Student.COLUMN_NAME_STUDENT_NAME, SchoolContract.Student.COLUMN_NAME_STUDENT_GRADE)
+        val selection = "${SchoolContract.Student.COLUMN_NAME_STUDENT_NAME} LIKE ?"
+        val selectionArgs = arrayOf("$name%")
+        val sortOrder = "${SchoolContract.Student.COLUMN_NAME_STUDENT_GRADE} DESC"
+        val cursor = db.query(
+            SchoolContract.Student.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            sortOrder
+        )
+        val data = ArrayList<CharSequence>()
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            var entry = "${cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))}: "
+            entry += "${cursor.getString(cursor.getColumnIndex(SchoolContract.Student.COLUMN_NAME_STUDENT_NAME))} = "
+            entry += cursor.getInt(cursor.getColumnIndex(SchoolContract.Student.COLUMN_NAME_STUDENT_GRADE))
+            data.add(entry)
+            cursor.moveToNext()
+        }
+        cursor.close()
+        val intent = Intent(this, QueryResultActivity::class.java)
+        intent.putCharSequenceArrayListExtra("data", data)
+        startActivity(intent)
+
+        /*val name = viewBinding.editName.text.toString()
         if(viewBinding.checkbox.isChecked) {
             try {
                 val inputStream = DataInputStream(openFileInput(name))
@@ -77,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             val prefs = getPreferences(Context.MODE_PRIVATE)
             val grade = prefs.getString(name, "[Não encontrado]")
             viewBinding.editGrade.setText(grade)
-        }
+        }*/
     }
 
     private fun buttonUpdateClick() {
