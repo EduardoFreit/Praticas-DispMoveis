@@ -6,4 +6,5 @@
     <string name="button_consultar">Consultar</string>
     <string name="button_atualizar">Atualizar</string>
     <string name="button_apagar">Apagar</string>
+    <string name="arquivo_interno">Arquivo Interno?</string>
 </resources>
