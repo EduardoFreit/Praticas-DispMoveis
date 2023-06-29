@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Praticas</string>
+    <string name="nome">Nome</string>
+    <string name="nota">Nota</string>
+    <string name="button_inserir">Inserir</string>
+    <string name="button_consultar">Consultar</string>
+    <string name="button_atualizar">Atualizar</string>
+    <string name="button_apagar">Apagar</string>
 </resources>
