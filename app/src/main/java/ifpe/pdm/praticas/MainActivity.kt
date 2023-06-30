@@ -11,8 +11,12 @@ import android.provider.BaseColumns
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.room.Room
 import ifpe.pdm.praticas.databinding.ActivityMainBinding
+import ifpe.pdm.praticas.db.AppDatabase
 import ifpe.pdm.praticas.db.SchoolContract
+import ifpe.pdm.praticas.db.Student
+import ifpe.pdm.praticas.db.StudentDAO
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.FileNotFoundException
@@ -20,13 +24,21 @@ import java.io.FileNotFoundException
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivityMainBinding
+    private lateinit var db: AppDatabase
+    private lateinit var studentDAO: StudentDAO
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "database-school"
+        ).allowMainThreadQueries()//Não recomendado
+        .build()
+        studentDAO = db.studentDao()
         viewBinding.buttonSave.setOnClickListener { this.buttonInsertClick() }
         viewBinding.buttonQuery.setOnClickListener { this.buttonQueryClick() }
         viewBinding.buttonUpdate.setOnClickListener { this.buttonUpdateClick() }
@@ -34,7 +46,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonInsertClick() {
+        // Parte - 03
         val name = viewBinding.editName.text.toString()
+        val grade = viewBinding.editGrade.text.toString()
+        val studentInsert = Student(name = name, grade = grade)
+        studentDAO.insertAll(studentInsert)
+        val toast = Toast.makeText(this, "Registro adicionado. Nome = $name", Toast.LENGTH_SHORT)
+        toast.show()
+        // Parte - 02
+        /*val name = viewBinding.editName.text.toString()
         val grade = viewBinding.editGrade.text.toString()
         val dbHelper = SchoolDbHelper(this)
         val db = dbHelper.getWritableDatabase()
@@ -43,7 +63,8 @@ class MainActivity : AppCompatActivity() {
         values.put(SchoolContract.Student.COLUMN_NAME_STUDENT_GRADE, grade)
         val newId = db.insert(SchoolContract.Student.TABLE_NAME, null, values)
         val toast = Toast.makeText(this, "Registro adicionado. ID = $newId", Toast.LENGTH_SHORT)
-        toast.show()
+        toast.show()*/
+        // Parte - 01
         /*val name = viewBinding.editName.text.toString()
         val grade = viewBinding.editGrade.text.toString()
         if(viewBinding.checkbox.isChecked) {
@@ -65,7 +86,16 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("Range")
     private fun buttonQueryClick() {
+        // Parte - 03
         val name = viewBinding.editName.text.toString()
+        val studentQuery: Student = studentDAO.findByName(name)
+        if(studentQuery != null) {
+            viewBinding.editGrade.setText(studentQuery.grade)
+        } else {
+            viewBinding.editGrade.setText("[Não encontrado]")
+        }
+        // Parte - 02
+       /* val name = viewBinding.editName.text.toString()
         val dbHelper = SchoolDbHelper(this)
         val db = dbHelper.readableDatabase
         val projection = arrayOf(BaseColumns._ID, SchoolContract.Student.COLUMN_NAME_STUDENT_NAME, SchoolContract.Student.COLUMN_NAME_STUDENT_GRADE)
@@ -93,8 +123,9 @@ class MainActivity : AppCompatActivity() {
         cursor.close()
         val intent = Intent(this, QueryResultActivity::class.java)
         intent.putCharSequenceArrayListExtra("data", data)
-        startActivity(intent)
+        startActivity(intent)*/
 
+        // Parte - 01
         /*val name = viewBinding.editName.text.toString()
         if(viewBinding.checkbox.isChecked) {
             try {
@@ -115,7 +146,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonUpdateClick() {
+        // Parte - 03
         val name = viewBinding.editName.text.toString()
+        val grade = viewBinding.editGrade.text.toString()
+        val studentUpdate: Student = studentDAO.findByName(name)
+        var toast = Toast.makeText(this, "Registro não encontrado", Toast.LENGTH_SHORT)
+        if(studentUpdate != null) {
+            studentUpdate.grade = grade
+            studentDAO.update(studentUpdate)
+            toast = Toast.makeText(this, "Registro Atualizado", Toast.LENGTH_SHORT)
+        }
+        toast.show()
+        // Parte - 02
+        /*val name = viewBinding.editName.text.toString()
         val grade = viewBinding.editGrade.text.toString()
         val dbHelper = SchoolDbHelper(this)
         val db = dbHelper.readableDatabase
@@ -125,8 +168,9 @@ class MainActivity : AppCompatActivity() {
         val selectionArgs = arrayOf(name)
         val count = db.update(SchoolContract.Student.TABLE_NAME, values, selection, selectionArgs)
         val toast = Toast.makeText(this, "Registros atualizados: $count", Toast.LENGTH_SHORT)
-        toast.show()
+        toast.show()*/
 
+        // Parte - 01
         /*val name = viewBinding.editName.text.toString()
         val grade = viewBinding.editGrade.text.toString()
 
@@ -158,15 +202,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonDeleteClick() {
+        // Parte - 03
         val name = viewBinding.editName.text.toString()
+        val studentDelete: Student = studentDAO.findByName(name)
+        var toast = Toast.makeText(this, "Registro não encontrado", Toast.LENGTH_SHORT)
+        if(studentDelete != null) {
+            studentDAO.delete(studentDelete)
+            toast = Toast.makeText(this, "Registro Deletado", Toast.LENGTH_SHORT)
+        }
+        toast.show()
+        // Parte - 02
+        /*val name = viewBinding.editName.text.toString()
         val dbHelper = SchoolDbHelper(this)
         val db = dbHelper.readableDatabase
         val selection = "${SchoolContract.Student.COLUMN_NAME_STUDENT_NAME} LIKE ?"
         val selectionArgs = arrayOf(name)
         val count = db.delete(SchoolContract.Student.TABLE_NAME, selection, selectionArgs)
         val toast = Toast.makeText(this, "Registros deletados: $count", Toast.LENGTH_SHORT)
-        toast.show()
+        toast.show()*/
 
+        // Parte - 01
         /*val name = viewBinding.editName.text.toString()
         if(viewBinding.checkbox.isChecked) {
             try {
