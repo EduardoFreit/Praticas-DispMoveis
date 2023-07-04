@@ -1,5 +1,6 @@
 package ifpe.pdm.praticas
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -25,7 +26,11 @@ class AlarmReceiver: BroadcastReceiver() {
             builder.setContentText("Alarme disparou! Toque para reagendar.")
             builder.setContentIntent(pendingNotificationIntent)
             builder.setAutoCancel(true)
-            val notification = builder.build()
+            // Configurar vibração
+            val pattern = longArrayOf(1000, 1000, 1000, 1000, 1000) // Padrão de vibração: 0ms de espera, 1000ms de vibração, 500ms de espera, 1000ms de vibração
+            builder.setVibrate(pattern)
+
+            val notification: Notification = builder.build()
 
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(0, notification)

@@ -2,4 +2,5 @@
     <string name="app_name">Praticas</string>
     <string name="agendar">Agendar</string>
     <string name="pratica_11">Prática: Alarmes, Notificações, Broadcast Receiver</string>
+    <string name="input_text">Digite Tempo do Alarme</string>
 </resources>

@@ -22,7 +22,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun scheduleAlarm() {
-        val time: Long = System.currentTimeMillis() + 10 * 1000
+        var time: Long = System.currentTimeMillis() + 10 * 1000
+
+        val tempoInput: String = viewBinding.inputText.text.toString()
+
+        if (tempoInput != null && tempoInput.isNotBlank()) {
+            time = System.currentTimeMillis() + (tempoInput.toLong()* 1000)
+        }
 
         val intentAlarm = Intent(this, AlarmReceiver::class.java)
 
